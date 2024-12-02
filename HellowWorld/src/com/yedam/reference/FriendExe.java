@@ -41,7 +41,7 @@ public class FriendExe {
 			}
 			//2. searchName의 값을 names 배열에서 검색.
 			boolean isExists = false;
-			int idx = -1;
+			int idx = 1;
 			for (int i = 0; i < myfriends.length; i++) {
 				isExists = myfriends[i].equals(searchName);
 
@@ -54,7 +54,7 @@ public class FriendExe {
 		}
 			//4. 없으면 "찾는 이름 없음" 출력.
 			if(isExists) {
-				System.out.println(myFriends[0].friendName);
+				System.out.println(myfriends[0].friendName);
 			}else {
 				System.out.println("찾는 이름 없음");
 			}

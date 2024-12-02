@@ -1,6 +1,6 @@
 package com.yedam.variable;
 
-public class intExe3 {
+public class IntExe3 {
 	public static void main(String[] args) {
 		boolean b1 = true;
 		b1 = 10 > 20;

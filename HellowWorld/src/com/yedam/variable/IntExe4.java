@@ -1,6 +1,6 @@
 package com.yedam.variable;
 
-public class intExe4 {
+public class IntExe4 {
 	public static void main(String[] args) {
 		String msg = new String("Hello, World"); //msg 주소값에 문자객체의 주소.
 		int age = 10; //age주소값에 10의 값.

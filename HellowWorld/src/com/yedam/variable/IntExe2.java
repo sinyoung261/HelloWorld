@@ -1,6 +1,6 @@
 package com.yedam.variable;
 
-public class intExe2 {
+public class IntExe2 {
 	public static void main (String[] args) {
 		//정수형 => byte(1바이트), short(2바이트), int(4바이트),
 		//long(8바이트), char(2바이트)
