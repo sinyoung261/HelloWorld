@@ -1,5 +1,7 @@
 package com.yedam.board;
 
+import java.util.Date;
+
 /*
  * 1.등록 2.목록
  */
@@ -8,9 +10,9 @@ public class BoardExe {
 
 	public BoardExe() {// 초기화
 		storage = new Board[10];
-		storage[1] = new Board(2, "자바는 재밌어", "열심히 합시다", "user01", "2024-12-04", new Date());
-		storage[2] = new Board(3, "오늘은 화요일", "3일이나 남았네", "user02", "2024-12-04", new Date());
-		storage[9] = new Board(1, "어서빨리집에", "보내주세요", "user03", "2024-12-04", new Date());
+		storage[1] = new Board(2, "자바는 재밌어", "열심히 합시다", "user01", new Date());
+		storage[2] = new Board(3, "오늘은 화요일", "3일이나 남았네", "user02", new Date());
+		storage[9] = new Board(1, "어서빨리집에", "보내주세요", "user03", new Date());
 	}
 
 	// 게시글 등록.

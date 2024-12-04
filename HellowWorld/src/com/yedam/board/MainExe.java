@@ -1,5 +1,6 @@
 package com.yedam.board;
 
+import java.util.Date;
 import java.util.Scanner;
 
 public class MainExe {
@@ -29,7 +30,7 @@ public class MainExe {
 				System.out.print("회원연락처>> ");
 				String phone = scn.nextLine();
 				
-				boolean result = mexe.addMember(new Member(id, pw, name, phone));
+				boolean result = mexe.addMember(new Member(id, pw, name, phone, new Date()));
 				if (result) {
 					System.out.println("정상 등록되었습니다.");
 				}else {
