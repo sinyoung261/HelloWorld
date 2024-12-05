@@ -1,8 +1,10 @@
-package com.yedam.methods;
+package com.yedam.jdbc.student;
+
 /*
- * 학생의 성적관리 Prog.
- * 학생번호, 학생이름, 영어점수, 수학점수
+ * tbl_student의 칼럼을 필드로 선언.
+ * std_no => stdNo;
  */
+
 public class Student {
 	private String stdNo;
 	private String stdName;
@@ -41,6 +43,14 @@ public class Student {
 	public void setStdName(String stdName) {
 		this.stdName = stdName;
 	}
+	
+	public String getStdPhone() {
+		return stdPhone;
+	}
+
+	public void setStdPhone(String stdPhone) {
+		this.stdPhone = stdPhone;
+	}
 
 	public int getEngScore() {
 		return engScore;
@@ -59,6 +69,21 @@ public class Student {
 	}
 	public String showInfo() {
 		return "학번: " + stdNo + "" + stdName + " " + stdPhone;
+	}
+	
+	//상세화면 출력
+	public String showDetail() {
+//		-------------------------
+//		학생번호: 24-001 이름: 홍길동
+//		연락처: 010-1111-2222
+//		영어점수: 80     수학점수: 70
+//		-------------------------
+		String result ="-----------------------------------------\n";
+		result += "학생번호: " + stdNo + "   이름: " + stdName +  "\n";
+		result += "연락처: " + stdPhone + "\n";
+		result += "영어점수: " + engScore + "        수학점수: " + mathScore + "\n";
+		result += "---------------------------\n";
+		return result;
 	}
 	
 }

@@ -8,12 +8,12 @@ import java.util.Scanner;
  */
 //student =>stu,
 public class StudentManager {
+	Student[] storage = new Student[10];
+
 	public static void main(String[] args) {
- 
+		init();
 		boolean run = true;
 		Scanner scn = new Scanner(System.in);
-		Student[] storage = new Student[10];
-		
 
 		while (run) {
 			System.out.println("1. 추가 2. 목록 3. 수정 4. 삭제 9. 종료");
@@ -34,7 +34,7 @@ public class StudentManager {
 
 				for (int i = 0; i < storage.length; i++) {
 					if (storage[i] == null) {
-						storage[i] = new Student(sno, sname, escore, mscore);//인스턴스 생성.
+						storage[i] = new Student(sno, sname, escore, mscore);// 인스턴스 생성.
 //						storage[i].stdNo = sno;
 //						storage[i].stdName = sname;
 //						storage[i].engScore = escore;
@@ -48,10 +48,10 @@ public class StudentManager {
 				System.out.printf("%5s %3s %2s %2s \n", "학생번호", "학생이름", "영어", "수학");
 				System.out.println("-----------------------------");
 				for (int i = 0; i < storage.length; i++) {
-					if (storage[i] != null) {//storage 학생 정보
-						System.out.printf("%s %s %d %d \n", storage[i].stdNo, storage[i].stdName,
-								storage[i].engScore, storage[i].mathScore);
-						//storage[i].introduce();
+					if (storage[i] != null) {// storage 학생 정보
+						System.out.printf("%s %s %d %d \n", storage[i].stdNo, storage[i].stdName, storage[i].engScore,
+								storage[i].mathScore);
+						// storage[i].introduce();
 					}
 				}
 				break;
@@ -78,9 +78,9 @@ public class StudentManager {
 
 				for (int i = 0; i < storage.length; i++) {
 					if (storage[i] != null) {
-						if(storage[i].stdNo.equals(sno)) {
+						if (storage[i].stdNo.equals(sno)) {
 							storage[i] = null;
-					}
+						}
 					}
 				}
 				break;
@@ -90,7 +90,7 @@ public class StudentManager {
 		}
 		System.out.println("프로그램 종료");
 	}
-	
+
 //public static void init() {
 //	storage[0] = new student();
 //	storage[0].stdNo = "S-001";
