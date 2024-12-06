@@ -10,6 +10,28 @@ import java.util.ArrayList;
  */
 public class StudentDAO extends DAO {
 
+	//login() => 반환:boolean, 매개값:id, password
+	public String login(String id, String pw) {
+		getConn();
+		String sql ="select*from tbl_member "
+				+ "where member_id = ?"
+				+"and password = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			psmt.setString(2, pw);
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				return rs.getString("member_name");
+			}
+		}catch(SQLException e) {
+		e.printStackTrace();
+	} finally {
+		disConnect();
+	}
+	return null;
+	}
+	
 	// 상세조회
 	// 반환: Student클래스, 매개: 학생번호, 메소드:selectStudent
 	public Student selectStudent(String sno) {
@@ -18,10 +40,10 @@ public class StudentDAO extends DAO {
 
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, sno);//파라미터(?)값 지정
+			psmt.setString(1, sno);// 파라미터(?)값 지정
 			rs = psmt.executeQuery();
 			while (rs.next()) {
-				Student std = new Student();//인스턴스 생성
+				Student std = new Student();// 인스턴스 생성
 				std.setStdNo(rs.getString("std_no"));
 				std.setStdName(rs.getString("std_name"));
 				return std;
@@ -29,7 +51,7 @@ public class StudentDAO extends DAO {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			disConnect();
 		}
 		return null;
@@ -37,7 +59,7 @@ public class StudentDAO extends DAO {
 
 	// 점수등록
 	// 반환:boolean, 매개:Student, 메소드:UpdateStudent.
-
+	
 	// 등록. 반환:boolean, 매개:Student, 메소드:insertStudent.
 	public boolean UpdateStudent(Student std) {
 		getConn();
@@ -65,21 +87,42 @@ public class StudentDAO extends DAO {
 	}
 
 	// 학생목록.
-	public ArrayList<Student> studentList() {
+	// 검색조건(학생이름, 연락처, 영어, 수학 검색조건 + 정렬 조건 )
+	public ArrayList<Student> studentList(Search search) {
 		getConn();
 		// 조회결과를 반환.
 		ArrayList<Student> studList = new ArrayList<Student>();
 
-		String sql = "select * from tbl_student";
+		String sql = "select std_no"
+				+ "          ,std_name"
+				+ "          ,std_phone"
+				+ "   		 ,eng_score"
+				+ "          ,math_score"
+//				+ "   TO_CHAR(creation_date, 'yyyy-mm-dd hh24:mi:ss') creation_date"
+				+ "   ,creation_date"
+				+ "   from tbl_student"
+				+ "   where std_name like '%'||?||'%'"
+				+ "   and eng_score >=?";
+		
+		if (search.getOrderBy().equals("std_no")) {
+			sql += "  order by std_no";
+		}else if(search.getOrderBy().equals("std_name")) {
+			sql += "  order by std_name";
+		}
 		try {
 			psmt = conn.prepareStatement(sql); // psmt 쿼리 실행, 결과 반환.
+			psmt.setString(1, search.getName());
+			psmt.setInt(2, search.getEngScore());
+
 			rs = psmt.executeQuery();
 			// 반복 ArrayList에 담는 작업.
 			while (rs.next()) {// next 안에 있는 갯수만큼 반복한다.
 				Student stud = new Student();
 				stud.setStdNo(rs.getString("std_no"));
-				stud.setStdNo(rs.getString("std_name"));
-				stud.setStdNo(rs.getString("std_phone"));
+				stud.setStdName(rs.getString("std_name"));
+				stud.setStdPhone(rs.getString("std_phone"));
+				stud.setEngScore(rs.getInt("eng_Score"));
+				stud.setCreationDate(rs.getDate("creation_date"));
 
 				studList.add(stud);// ArrayList에 추가.
 				// add컬렉션에 답을 추가
@@ -92,5 +135,9 @@ public class StudentDAO extends DAO {
 		}
 
 		return studList;
+	}
+
+	public boolean insertStudent(Student std) {
+		return false;
 	}
 }

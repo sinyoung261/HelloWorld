@@ -1,5 +1,6 @@
 package com.yedam.jdbc;
 
+import java.awt.SystemTray;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,9 +11,9 @@ import java.sql.Statement;
 public class JdbcExe2 {
 	public static void main(String[] args) {
 		Employee emp = new Employee();
+		
 		emp.setLastName("Park");
 		emp.setHireDate("2000-01-01");
-		
 		insert(emp);
 		select();
 		System.out.println("end of prog.");
@@ -51,7 +52,6 @@ public class JdbcExe2 {
 			Statement stmt = conn.createStatement();
 			int r = stmt.executeUpdate(query);
 			System.out.println(r + "건 처리됨.");
-			
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -75,10 +75,12 @@ public class JdbcExe2 {
 		//?(파라메타)는 값이 지정되지 않았다는 걸 뜻한다.
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
+			
 			stmt.setString(1, emp.getLastName());
 			stmt.setString(2, emp.getEmail());
 			stmt.setString(3, emp.getHireDate());
 			stmt.setString(4, emp.getJobId());
+//			stmt.setInt(5, emp.getSalary());
 			
 			int r = stmt.executeUpdate();
 			System.out.println(r + "건 처리됨.");//employees_seq.nextval DB 내부적으로 쿼리해수는 것
@@ -100,10 +102,12 @@ public class JdbcExe2 {
 	ResultSet rs = stmt.executeQuery("select * from employees where employee_id > 200 order by employee_id desc");
 	//결과출력
 	while(rs.next()){
-		System.out.println(rs.getInt("employee_id") + ", " 
-				+ rs.getString("first_name") + ", "
-				+ rs.getString("salary") + ", "
-				+ rs.getString("email"));
+		System.out.println(rs.getString("LAST_NAME") + ", " 
+				+ rs.getString("FIRST_NANE") + ", "
+				+ rs.getString("EMAIL") + ", "
+				+ rs.getString("JOB_ID") + ", "
+				+ rs.getString("PHONE_NUMBER") + ", "
+				+ rs.getString("SALARY"));
 	}
 	conn.close();// 연결해제
 	}catch(SQLException e){

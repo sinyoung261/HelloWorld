@@ -31,12 +31,12 @@ public class DAO {
 	}
 
 	// 연결
-		public static Connection getConn() {
-			Connection conn = getConn();
+		public Connection getConn() {
 			try {
 				Class.forName("oracle.jdbc.driver.OracleDriver");// 드라이버 로드
 				//Connection 객체
 				conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "proj", "proj");
+			
 			}catch (Exception e) {
 				System.out.println("연결 중 에러");
 				e.printStackTrace();

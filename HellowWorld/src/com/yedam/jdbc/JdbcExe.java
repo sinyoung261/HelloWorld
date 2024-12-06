@@ -6,11 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 public class JdbcExe {
 	public static void main(String[] args) {
-//		insert();
+//		insert("Hong","KHONG", "0204-01-02", "IT_PROG");
+//		update("minseo" , "011.3433.7655", 4500, 212);
 //		delete();
-		update(212,"minseo" , "011-3433-7655", 4500);
 		select();
 		System.out.println("end of prog.");
 	}
@@ -31,8 +32,18 @@ public class JdbcExe {
 	}
 	
 	//삭제기능.
-	public static void delete(int empId) {
+	public static void delete(int employee_id) {
 		Connection conn = getConn();
+		String query = "delete from employees"
+				+ "where employee_id = " + employee_id;
+		try {
+			Statement stmt = conn.createStatement();
+			int r = stmt.executeUpdate(query);
+			System.out.println(r + "건 처리됨.");
+			conn.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
