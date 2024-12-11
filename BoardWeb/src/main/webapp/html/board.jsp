@@ -9,6 +9,7 @@
 BoardVO bvo = (BoardVO) request.getAttribute("board");
 %>
 <form action="modifyForm.do">
+	<input type="hidden" name="board_no" value="<%=bvo.getBoardNo()%>">
 	<table class="table">
 		<tr>
 			<th>글번호</th>
@@ -32,10 +33,22 @@ BoardVO bvo = (BoardVO) request.getAttribute("board");
 			<td><%=bvo.getViewCnt()%></td>
 		</tr>
 		<tr>
+			<%
+			String logId = (String) session.getAttribute("logId");
+			if (logId.equals(bvo.getWriter())) {
+			%>
 			<td colspan="4" align="center"><input type="submit"
-				class="btn btn-warning" value="수정목록">
-				</td>
-				</tr>
+				class="btn btn-warning" value="수정목록"></td>
+		
+		<%
+		} else {
+		%>
+		<td colspan="4" align="center"><input type="submit"
+			class="btn btn-warning" value="수정목록" disabled></td>
+		<%
+		}
+		%>
+		</tr>
 	</table>
 </form>
 <!-- board.jsp원래있던 부분. -->

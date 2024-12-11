@@ -10,6 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<jsp:forward page="boardList.do"></jsp:forward>
   <%
   // 주석처리.
   String msg = "Hello";
@@ -19,7 +20,7 @@
   
   <%
   BoardDAO bdao = new BoardDAO();
-  List<BoardVO> list = bdao.boardList();
+  List<BoardVO> list = bdao.boardList(1);
   
   for (BoardVO board : list) {
   %>

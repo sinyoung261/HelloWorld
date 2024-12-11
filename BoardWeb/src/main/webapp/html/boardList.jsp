@@ -1,3 +1,4 @@
+<%@page import="com.yedam.common.PageDTO"%>
 <%@page import="com.yedam.vo.BoardVO"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -9,6 +10,24 @@
 <%
 List<BoardVO> list = (List<BoardVO>) request.getAttribute("list");
 %>
+<form action="boardList.do">
+<div class="row">
+  <div class="col-sm-4">
+  <select name="searchCondition" class="form-control">
+  <option value="">선택하세요</option>
+  <option value="T">제목</option>
+  <option value="W">작성자</option>
+  <option value="TW">제목 & 작성자</option>
+  </select>
+  </div>
+  <div class="col-sm-6">
+  <input type="text" name="keyword" class="form-control">
+  </div>
+  <div class="col">
+  <input type="submit" value="검색"  class="form-control">
+  </div>
+</div>
+</form>
 <table class="table">
 	<thead>
 		<tr>
@@ -34,4 +53,42 @@ List<BoardVO> list = (List<BoardVO>) request.getAttribute("list");
 		%>
 	</tbody>
 </table>
+<!-- paging. -->
+<%
+PageDTO paging = (PageDTO) request.getAttribute("paging");
+%>
+<p><%=paging %></p>
+<nav aria-label="...">
+  <ul class="pagination">
+  <%
+  if (paging.isPrev()){
+  %>
+  <li class="page-item">
+      <a class="page-link" href="boardList.do?page=<%=paging.getStartPage()-1%>">Previous</a>
+    </li>
+    <%
+  }else{
+    %>
+    <li class="page-item disabled">
+      <span class="page-link">Previous</span>
+    </li>
+    <%
+    }
+  	for(int p = paging.getStartPage(); p<= paging.getEndPage(); p++){
+    	if(paging.getCurrentPage() == p){
+    %>
+    <li class="page-item active" aria-current="page">
+      <a class="page-link"><%=p%></a>
+    </li>
+    <%}else{ %>
+    <li class="page-item"><a class="page-link" href="boardList.do?page=<%=p%>"><%=p%></a></li>
+    <%
+    } }
+    %>
+    <li class="page-item">
+      <a class="page-link" href="boardList.do?page=<%=paging.getEndPage()+1%>">Next</a>
+    </li>
+  </ul>
+</nav>
+
 <jsp:include page="../includes/footer.jsp"></jsp:include>

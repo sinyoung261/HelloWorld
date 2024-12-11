@@ -37,10 +37,11 @@ public class BoardControl implements Control {
 			board.setContent(content);
 			board.setWriter(writer);
 
-			if (bdao.insertBoard(board)) {
+			if (bdao.insertBoard(board)) {//insert
 				// 목록이동
-				resp.sendRedirect("boardList.do");
+				resp.sendRedirect("boardList.do");//페이지를 재 지정한다
 			} else {
+				//등록화면으로 이동
 				req.getRequestDispatcher("html/boardForm.jsp").forward(req, resp);
 			}
 		}
