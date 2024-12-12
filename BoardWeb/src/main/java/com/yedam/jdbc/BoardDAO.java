@@ -47,9 +47,9 @@ public class BoardDAO extends DAO {
 						sql += "             where title like '%'||?||'%' or writer like '%'||?||'%'";
 					}
 				}
+				int cnt = 1;
 			try {
 				psmt = conn.prepareStatement(sql);
-				int cnt = 1;
 				if (search.getSearchCondition() != null && search.getKeyword() != null) {
 					if (search.getSearchCondition().equals("T")) {
 						psmt.setString(cnt++, search.getKeyword());// 첫번째 파라미터
@@ -63,6 +63,7 @@ public class BoardDAO extends DAO {
 				rs = psmt.executeQuery();
 			if (rs.next()) {
 				return rs.getInt(1);// 첫번째 칼럼 반환
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -150,7 +151,7 @@ public class BoardDAO extends DAO {
 		return false;
 	}
 
-	// 목록.
+	// 목록.(parameter(매개변수)
 	public List<BoardVO> boardList(SearchDTO search) {
 		getConn();
 		String sql = "select b.* " + "   from( select rownum rn, a.*" + "        from (select *"
