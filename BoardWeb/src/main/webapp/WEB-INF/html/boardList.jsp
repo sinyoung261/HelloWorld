@@ -55,7 +55,8 @@
   <c:choose>
   <c:when test="${paging.prev }">
   <li class="page-item">
-      <a class="page-link" href="boardList.do?keyword=${empty keyword?'': keyword}&searchCondition=${empty searchCondition?'': searchCondition}&page=${pagint.startPage-1}">Previous</a>
+      <a class="page-link"
+      href="boardList.do?keyword=${empty keyword?'': keyword}&searchCondition=${empty searchCondition?'': searchCondition}&page=${pagint.startPage-1}">Previous</a>
     </li>
     </c:when>
     <c:otherwise>

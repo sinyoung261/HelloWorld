@@ -18,8 +18,8 @@ public class AppTest {
 		}else {
 			System.out.println("실패");
 		}
-		List<ReplyVO> list = rdao.selectList(360);
-		for(ReplyVO rvo : rdao.selectList(360)) {
+		List<ReplyVO> list = rdao.selectList(360, 55);
+		for(ReplyVO rvo : list) {
 			System.out.println(rvo.toString());
 		}
 	}
