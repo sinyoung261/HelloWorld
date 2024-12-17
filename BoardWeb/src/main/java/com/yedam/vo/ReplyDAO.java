@@ -33,13 +33,44 @@ public class ReplyDAO extends DAO {
 	String chartQuery = "select board_no|| '번 글' as boardNo , count(1) as cnt"
 			+" 			from tbl_reply"
 			+" 			group by board_no";
+	//데이터 삭제
+	String deleteData = " delete from tbl_events"
+			+ "           where title = ?     "
+			+ "           and start_date = ?  "
+			+ "           and end_data = ?    ";
+	
+	
+	//일정등록
+	public boolean insertEvent(Map<String, String> map) {
+		getConn();
+		String sql ="insert into tbl_events (title, start_date, end_datd)"
+				+ "  values(?, ?, ?)";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, map.get("title"));
+			psmt.setString(2, map.get("start"));
+			psmt.setString(3, map.get("end"));
+			
+			int r = psmt.executeUpdate(); //처리된 건수 반환
+			if(r > 0) {
+				return true; //정상처리
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			disConnect();
+		}
+		return false; //비정상처리
+	}
+	
 	
 	//fullcalendar 데이터.
 	public List<Map<String, Object>> calendarData() {
 			List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 			getConn();
-			String sql = "select title, start_date, end_date"
-					+ 	 "from tbl_events";
+			String sql = "select title, start_date, end_datd"
+					+"    from tbl_events";
 			try {
 				psmt = conn.prepareStatement(sql);
 				rs = psmt.executeQuery();
@@ -47,8 +78,8 @@ public class ReplyDAO extends DAO {
 				while (rs.next()) {
 					Map<String, Object> map = new HashMap<>();
 					map.put("title", rs.getString("title"));
-					map.put("Start", rs.getString("start"));
-					map.put("end", rs.getString("end"));
+					map.put("start", rs.getString("start_date"));
+					map.put("end", rs.getString("end_datd"));
 					
 					list.add(map);
 				}
@@ -61,6 +92,36 @@ public class ReplyDAO extends DAO {
 			
 			return list;
 	}
+	
+	//fullcalendar 데이터 삭제.
+	public boolean deleteData(Map<String, String> map) {
+			getConn();
+			String sql =" delete from tbl_events"
+					+   "   where title = ?     "
+					+   "   and start_date = ?  "
+					+   "   and end_data = ?    ";
+			
+			
+			
+			
+			try {
+				psmt = conn.prepareStatement(sql);
+				psmt.setString(1, map.get("title"));
+				psmt.setString(2, map.get("start"));
+				psmt.setString(3, map.get("end"));
+				
+				int r = psmt.executeUpdate(); //처리된 건수 반환
+				if(r > 0) {
+					return true;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally{
+				
+			}
+			return false; //비정상처리
+		}
+	
 	
 	//차트데이터
 	
@@ -140,20 +201,18 @@ public class ReplyDAO extends DAO {
 	public boolean deleteReply(int replyNo) {
 		getConn();
 		try {
-			psmt = conn.prepareStatement("delete reply_seq.nextval from dual");
-			rs = psmt.executeQuery();
-			int rno = 0; // 쿼리실행.
 
 			psmt = conn.prepareStatement(deleteQuery);
-			psmt.setInt(1, rno);
+			psmt.setInt(1, replyNo);
 			int r = psmt.executeUpdate(); // 쿼리실행.
 			if (r > 0) {
 				System.out.println("삭제성공");
+				return true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			disConnect();
+
 		}
 		return false;
 	}

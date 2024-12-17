@@ -10,21 +10,23 @@
 	<!-- ajax.jsp -->
 	<script>
 		//Asynchronous Javascript And Xml
-		fetch('replyList.do')
-		.then(function(result){
-			console.log(result);
-			return result.json();
+		console.log('1');
+		
+		fetch('fullData.do')
+		.then(result => result.json())
+		.then(result => {
+			console.log('2');
 		})
-		.then(function(result){
-			console.log(result); //{name:'홍길동', age:20}
-			let p = document.createElement("p");
-			p.innerText = '이름' + result.name + ", 나이는" + result.age;
-			document.querySelector('body').appendChild(p);
+		.catch(err => console.log(err));
+		
+		fetch('fullData.do')
+		.then(result => result.json())
+		.then(result => {
+			console.log('2');
 		})
-		.catch(function(err){
-			console.log(err);
-		})
-		;
+		.catch(err => console.log(err));
+		 
+		console.log('3')
 		
 	</script>
 </body>

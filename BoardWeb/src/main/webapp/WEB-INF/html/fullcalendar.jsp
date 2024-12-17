@@ -8,6 +8,21 @@
 <script>
 
   document.addEventListener('DOMContentLoaded', function() {
+	  let eventData = ''; 
+
+	 //eventData 에 저장하기 fullData.do
+		 fetch('fullData.do')
+		 
+		 .then(function(result){
+			 return result.json()
+		 })
+		 .then(result => {
+
+			 eventData = result;
+			 
+//			 console.log(eventData);
+		
+	 
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -16,39 +31,46 @@
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
-      initialDate: '2023-01-12'
+      initialDate: '2024-12-01',
       navLinks: true, // can click day/week names to navigate views
       selectable: true,
       selectMirror: true,
       select: function(arg) {
-        var title = prompt('Event Title:');
+        var title = prompt('이벤트를 등록하세요:');
         if (title) {
-          calendar.addEvent({
-            title: title,
-            start: arg.start,
-            end: arg.end,
-            allDay: arg.allDay
-          })
-        }
+        	console.log(arg);//arg확인
+        	//Azax 호출
+        	fetch('addEvent.do?a='+title+'&b='+arg.startStr+'&c='+arg.endStr)
+        	 .then(result => result.json())
+        	 .then(result => {
+        		 if(result.retCode == 'OK'){
+        		//화면출력.
+        		calendar.addEvent({
+                 title: title,
+                 start: arg.start,
+                 end: arg.end,
+                 allDay: arg.allDay
+                 })
+           	   }//end of retCode == 'OK'
+           	 })
+         	.catch(err => console.log(err));
+        	
+        }//end of if(title)
         calendar.unselect()
       },
       eventClick: function(arg) {
-        if (confirm('Are you sure you want to delete this event?')) {
-          arg.event.remove()
+        if (confirm('이벤트를 삭제하시겠습니까?')) {
+          arg.event.remove();//화면에서 이벤트 지워주는 역할
         }
       },
       editable: true,
       dayMaxEvents: true, // allow "more" link when too many events
-      events: [       
-        {
-          title: 'Long Event',
-       start: '2023-01-07',
-         end: '2023-01-10'
-     }
-      ]
-    });
+      events: eventData //[{},{},{}.....{}]
+    })
+    calendar.render(); //실제 출력
+    })
+		 .catch(err => console.log(err));
 
-    calendar.render();
   });
 
 </script>

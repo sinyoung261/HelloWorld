@@ -19,15 +19,16 @@ function makeRow(reply = {}) {
 
 //댓글 -> 삭제 -> retCode(OK,Fail)
 function deleteReply(rno = 1) {
+	
 	fetch('removeReply.do?rno=' + rno)
 		.then(result => result.json())
 		.then(result => {
-			console.log(result)
+			console.log(result);
 			if (result.retCode == 'OK') {
-				alter("삭제 완료.")
-				document.querySelector('li[data-rno=' + rno + '"]').remove();
+				alert("삭제 완료.");
+				document.querySelector('li[data-rno="' + rno + '"]').remove();
 			} else {
-				alter("삭제가 안됨.");
+				alert("삭제가 안됨.");
 			}
 		})
 		.catch(err => console.log(err))
@@ -97,8 +98,8 @@ function createPageList() {
 				} else {
 					let html = ` <li class="page-item" data-page="${p}">`
 				}
-				`<a class="page-link" href="#">${p}</a></li>`
-				`pagination.insertAdjacentHTML('beforeend', html)`;
+				`<a class="page-link" href="#">${p}</a></li>
+				pagination.insertAdjacentHTML('beforeend', html)`;
 			}
 			//이후페이지
 			if (next) {
